@@ -5,7 +5,7 @@ metadata:
   name: phpmyadmin
   namespace: phpmyadmin
   annotations:
-    argocd.argoproj.io/sync-wave: "3"
+    argocd.argoproj.io/sync-wave: "4"
 spec:
   replicas: 1
   selector:
@@ -36,7 +36,7 @@ metadata:
   name: phpmyadmin
   namespace: phpmyadmin
   annotations:
-    argocd.argoproj.io/sync-wave: "4"
+    argocd.argoproj.io/sync-wave: "5"
 spec:
   type: NodePort
   ports:

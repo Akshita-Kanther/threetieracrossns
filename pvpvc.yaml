@@ -1,13 +1,42 @@
 ---
+# Sync Wave 0: PersistentVolume (created first)
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-pv-database
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  capacity:
+    storage: 10Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+  local:
+    path: /mnt/data/database
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - kind-worker2
+---
+# Sync Wave 1: PersistentVolumeClaim (created after PV)
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: db-pvc
   namespace: database
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
-  storageClassName: nfs-client
+  storageClassName: local-storage
+  accessModes:
+    - ReadWriteOnce
   resources:
     requests:
       storage: 10Gi
-  accessModes:
-    - ReadWriteOnce
