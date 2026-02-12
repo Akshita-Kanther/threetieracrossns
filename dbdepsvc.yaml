@@ -16,6 +16,15 @@ spec:
       labels:
         app: db
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - kind-worker3
       containers:
         - name: db
           image: mariadb:latest
@@ -63,4 +72,3 @@ spec:
       targetPort: 3306
   selector:
     app: db
-

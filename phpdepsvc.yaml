@@ -16,6 +16,15 @@ spec:
       labels:
         app: phpmyadmin
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - kind-worker
       containers:
         - name: phpmyadmin
           image: phpmyadmin/phpmyadmin:latest
